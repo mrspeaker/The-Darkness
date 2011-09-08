@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>sss</title>
+    </head>
+    <body>
+        <div id="ting"></div>
+        <script src="astar.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" charset="utf-8">
+            var m = [ 
+              ["u", "u", "u", "u", "u"],  
+              ["w", "w", "w", "u", "g"],  
+              ["w", "u", "w", "w", "w"],  
+              ["s", "w", "u", "w", "w"],  
+              ["u", "u", "u", "w", "w"] ];
+            
+            var p = astar(m, "manhattan", false),
+                out = !p ? "nope" : p.map(function(item){
+                    return item.row + ":" + item.col;
+                }).join("<br/>");
+
+            document.getElementById("ting").innerHTML = out;
+        </script>
+    </body>
+</html>

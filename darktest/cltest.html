@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <script type="text/javascript" charset="utf-8">
+        
+            function Create(ext, prot, props) {
+                var protz = {};
+
+                for(var p in prot) {
+                    protz[p] = {
+                        value: prot[p]
+                    }
+                }
+                console.log("protz", protz)
+                var newObject = Object.create(new Sprite, protz);
+                return newObject;
+                console.log(newObject, "!")
+                for(p in props) {
+                    newObject[p] = props[p];
+                }
+                return function(){ 
+                    return Object.create(newObject);
+                }
+            }
+            
+            var p3 = Create(Sprite, {
+                printa: function(){ console.log(this); }
+            }, {
+                lolll: 10
+            });
+            
+            function Extends(child, parent) {
+                for (var key in parent) { 
+                    if (Object.prototype.hasOwnProperty.call(parent, key)) {
+                        child[key] = parent[key]; 
+                    }
+                }
+                function ctor() { this.constructor = child; }
+                ctor.prototype = parent.prototype;
+                child.prototype = new ctor;
+                child.__super__ = parent.prototype;
+                return child;
+            };
+        
+        /*
+            console.log(p3, "5")
+                    var pp3 = p3();
+                    console.log(pp3,"#");
+                    //pp3.printa();
+               //     pp3.print();
+                    */
+        
+        
+            function Sprite(){
+                this.x = 1;
+                this.y = 1;
+            };
+            Sprite.prototype = {
+                name: "Sprite",
+                print: function(){
+                    console.log(this.name, this.x, this.y);
+                }
+            }
+            
+            function S2() {
+                this.x = 1;
+                this.y = 2;
+                this.print = function(){
+                    console.log(this.name, this.x, this.y);
+                }
+            }
+            
+            var ss = new Sprite();
+            var st = new S2();
+            console.log(ss, st,"!!")
+            
+            var PP = function(){
+                Extends(PP, Sprite);
+                function PP() {
+                    PP.__super__.constructor.apply(this, arguments);
+                }
+                PP.prototype.foof = function(){
+                    
+                }
+                return PP;
+            };
+            
+            var ppp = new PP();
+            console.log(ppp);
+            
+            function Player(){
+                this.dir = 2;
+            }
+            Player.prototype = new Sprite;
+            Player.prototype.name = "Player";
+            Player.constructor = Player;
+            Player.prototype.print = function(){
+                Object.getPrototypeOf(Object.getPrototypeOf(this)).print.call(this);
+            }
+            
+            /*
+            print22: { value: function(){
+                            console.log("...");
+                            Object.getPrototypeOf(Object.getPrototypeOf(this)).print.call(this);
+                        }}*/
+            
+            
+            var p2 = Object.create(new Sprite, {
+                name: { value:"p2" }
+            });
+            //p2.direction = "up";
+            
+            function make2(ext, prot, props) {
+                var protz = {};
+                for(var p in prot) {
+                    protz[p] = {
+                        value: prot[p]
+                    }
+                }
+                var propz = {};
+                for(p in props) {
+                    propz[p] =  { value: props[p]};
+                }
+
+                var no = Object.create(new ext, protz, propz);
+                return no;
+            };
+            var got2 = function(){
+                var s = make2(Sprite, {
+                    name: "makein2"
+                }, {
+                    lol: 1
+                });
+                return Object.create(s);
+            }
+            
+            var one = got2();
+            console.log(Object.create(p2), one)
+            
+            console.log(new Player())
+         /*
+            var a1 = new Sprite();
+                     a1.print();
+                     
+                     var a2 = new Player();
+                     a2.print();
+                     
+                     var a3 = Object.create(p2);
+                     console.log(a3,".");
+                     a3.print();*/
+         
+
+        </script>
+    </body>
+</html>

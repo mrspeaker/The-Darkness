@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>darkn test</title>
+        <style type="text/css" media="screen">
+            body {
+                background-color: #111;
+            }
+            #board, #light {
+                position:absolute;
+                top: 0;
+                left: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="board" width="500" height="300"></canvas>
+        <canvas id="light" width="500" height="300"></canvas>
+        <script src="stats.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" charset="utf-8">
+            var board = document.getElementById("board").getContext("2d"),
+                light = document.getElementById("light").getContext("2d"),
+                bw = board.canvas.width,
+                bh = board.canvas.height,
+                lw = light.canvas.width,
+                lh = light.canvas.height;
+            
+            var xx = 0,
+                yy = 0;
+            document.addEventListener("mousemove", function(e){
+                xx = e.pageX;
+                yy = e.pageY;
+            },false);
+            
+            var size = 28;
+           
+            
+            var stats = new Stats();
+            // Align top-left
+            stats.domElement.style.position = 'absolute';
+            stats.domElement.style.left = '0px';
+            stats.domElement.style.top = '0px';
+
+            //document.body.appendChild( stats.domElement );
+            var cols = ["#444", "#400", "#004"];
+            var lev = " \
+                1111111 \
+                1221000 \
+                1221110 \
+                1002010 \
+            ".replace(/\s/g, "").split("").map(function(tile){ return parseInt(tile, 10); });
+
+            setInterval( function () {
+
+                board.fillStyle = "#666";
+                board.fillRect(0,0,bw,bh);
+                for(var i = 0; i < Math.ceil(bw / size); i++) {
+                    for(var j = 0; j < Math.ceil(bh / size); j++) {
+                        board.fillStyle = cols[lev[(i%4 *7) + (j%7)]];
+                        board.fillRect(i * size, j * size, size - 1, size - 1);
+                    }
+                }
+
+                light.globalCompositeOperation = "source-over";
+                light.fillStyle = "#111";
+                light.fillRect(0, 0, lw, lh);
+
+                light.globalCompositeOperation = "destination-out";
+
+                var timer = - new Date().getTime() * 0.001;
+                drawLightCirc(light, (Math.cos(timer) * 140) + (lw/2), (Math.cos(timer) * 100) + (lh/2), 30);
+                drawLightCirc(light, (Math.sin(timer) * 150) + (lw/2), (Math.cos(timer) * 100) + (lh/2), 50);
+                drawLightCirc(light, (Math.sin(timer/3) * 200) + (lw/2), (Math.cos(timer) * 130) + (lh/2), 50);
+                drawLightCirc(light, xx - 20, yy - 20, Math.abs(Math.sin(timer) * 70));
+
+                stats.update();
+
+            }, 1000 / 60 );
+            
+            function drawLightCirc(ctx, x, y, rad) {
+                var light = ctx.createRadialGradient(x, y, 0, x, y, rad);
+                light.addColorStop(0, 'rgba(0,255,0,1)');
+                light.addColorStop(1, 'rgba(0,255,0,0)');
+
+                // draw shapes
+                ctx.fillStyle = light;
+                ctx.fillRect(x - rad, y - rad, x + rad, y + rad);
+            }
+        </script>
+    </body>
+</html>
