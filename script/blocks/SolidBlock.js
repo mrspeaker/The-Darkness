@@ -11,3 +11,6 @@ SolidBlock.prototype.render = function(canvas) {
     if(this.type == "w") frame = 2;
     Art.drawTile(canvas.ctx, Art.tiles, frame, 0, this.x * w, this.y * h - 8);
 };
+SolidBlock.prototype.use = function(by) {
+    this.type = this.type == "w" ? "" : "w";
+}

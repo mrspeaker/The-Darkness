@@ -19,15 +19,11 @@ Block.prototype = {
         this.entities = [];
         this.sprites = [];
     },
-    tick: function() {
-
-    },
+    tick: function() {},
     blocks: function() {
         return this.blocksMotion;
     },
-    use: function(e) {
-        return false;
-    },
+    use: function(e) {},
     addEntity: function(e) {
         if(this.entities.some(function(item){ return item === e; })){
             return;

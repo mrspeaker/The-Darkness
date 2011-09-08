@@ -110,6 +110,9 @@ Level.prototype = {
             e.tick();
             e.updatePos();
         });
+        this.blocks.forEach(function(block){
+            block.tick();
+        })
     },
     fire: function() {
         var p = this.player;

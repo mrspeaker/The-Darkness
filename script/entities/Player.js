@@ -40,15 +40,24 @@ Player.prototype.ticka = function(input) {
 
     if(this.xa !== 0 || this.ya !== 0){
         var oldxa = this.xa,
-            oldya = this.ya;
+            oldya = this.ya,
+            xTile = 0,
+            yTile = 0;
+
         if(this.move()) {
             this.animTime++;
-        } else {
+        }
+        else {
             if(space) {
-                console.log("us wlall", this.xa, this.ya, oldxa, oldya);
-                if(oldxa < 0){
-                    this.level.getBlock(this.xTile - 1, this.yTile).use(this)
+                if(oldxa !== 0){
+                    xTile = oldxa < 0 ? -1 : 1;
                 }
+                if(oldya !== 0){
+                    yTile = oldya < 0 ? -1 : 1;
+                }
+                this.level.getBlock(
+                    this.xTile + xTile, 
+                    this.yTile + yTile).use(this);
             }
         }
     }
