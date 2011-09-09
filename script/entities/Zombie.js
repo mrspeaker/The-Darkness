@@ -13,12 +13,15 @@ Zombie.prototype.states = {
     rand: 0,
     watch: 1,
     returning: 2,
-    attack: 3
+    attack: 3,
+    walkTo: 4
 };
-Zombie.prototype.switchState = function(newState) {
+Zombie.prototype.switchState = function(newState, data) {
     this.frame = 0;
     this.lastState = this.state;
+    this.lastData = this.stateData;
     this.state = newState;
+    this.stateData = data;
 };
 
 Zombie.prototype.tick = function() {
@@ -45,7 +48,7 @@ Zombie.prototype.tick = function() {
             }
             // Follow path
             if(1 == 1) {
-                this.switchState(this.states.watch);
+                this.switchState(this.states.walkTo, {x: 10, y: 10});
             }
             
             break;
@@ -58,6 +61,12 @@ Zombie.prototype.tick = function() {
                 this.switchState(this.states.watch);
             }
             
+            break;
+        case this.states.walkTo:
+            if(this.frame === 0) {
+                console.log(this.stateData);
+            }
+            this.switchState(this.states.watch)
             break;
     }
     this.frame++;

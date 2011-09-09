@@ -10,88 +10,63 @@ function Player(){
 Player.prototype = new Entity;
 Player.constructor = Player;
 Player.prototype.ticka = function(input) {
-    var keys = input.keys;
-    
-    var right = keys[Input.RIGHT]  == "newpress",
-        left = keys[Input.LEFT]  == "newpress",
-        up = keys[Input.UP]  == "newpress",
-        down = keys[Input.DOWN]  == "newpress",
+    var keys = input.keys,
+        right = keys[Input.RIGHT]  == "newpress" ? c.RIGHT : c.NONE,
+        left = right ? c.NONE : keys[Input.LEFT]  == "newpress" ? c.LEFT : c.NONE,
+        up = keys[Input.UP]  == "newpress" ? c.UP : c.NONE,
+        down = up ? c.NONE : keys[Input.DOWN]  == "newpress" ? c.DOWN : c.NONE,
         space = keys[Input.SPACE]  == "newpress",
-        zkey = keys[Input.Z] == "newpress";
+        zkey = keys[Input.Z] == "newpress",
+        
+        blocked = false;
 
-    this.xa = right ? this.speed : left ? -this.speed : 0;//this.xa;
-    this.ya = down ? this.speed : up ? -this.speed : 0;//this.ya;
-    
-    if(up || down || left || right){
-        if(right) {
-            this.dir = up ? c.UP_RIGHT : down ? c.DOWN_RIGHT : c.RIGHT;
-        }
-        else if(left) {
-            this.dir = up ? c.UP_LEFT : down ? c.DOWN_LEFT : c.LEFT;
-        }
-        else if(up) {
-            this.dir = c.UP;
-        }
-        else {
-            this.dir = c.DOWN;
-        }
-    }
+    this.xa = right ? this.speed : left ? -this.speed : 0;
+    this.ya = down ? this.speed : up ? -this.speed : 0;
+    this.dir = right | left | up | down;
 
+    if(this.dir){
+        blocked = !(this.move());
+        !blocked && this.animTime++;
 
-    if(this.xa !== 0 || this.ya !== 0){
-        var oldxa = this.xa,
-            oldya = this.ya,
-            xTile = 0,
-            yTile = 0;
-
-        if(this.move()) {
-            this.animTime++;
-        }
-        else {
-            if(space) {
-                if(oldxa !== 0){
-                    xTile = oldxa < 0 ? -1 : 1;
-                }
-                if(oldya !== 0){
-                    yTile = oldya < 0 ? -1 : 1;
-                }
+        if(space && blocked) {
+            var xOff = right ? 1 : left ? -1 : 0,
+                yOff = up ? -1 : down ? 1 : 0;
+            this.activate(
                 this.level.getBlock(
-                    this.xTile + xTile, 
-                    this.yTile + yTile).use(this);
-            }
+                    this.xTile + xOff,
+                    this.yTile + yOff));
+
         }
     }
-    
+
+    // do fire
     if((--this.fireTime <= 0) && zkey) {
         this.fireTime = 30;
         this.level.fire();
     }
-    
+
+    // use current block
+    !blocked && space && this.activate();
+
     if(this.itemUseTime > 0) this.itemUseTime--;
-    if(this.itemUseTime < 1 && space) {
-        this.activate();
-    }
 };
 
-Player.prototype.activate = function() {
-    // For each block im facing
-    //// Get block
-    //// call blcok .use.
-    this.itemUseTime = 10;
-    var block = this.level.getBlock(this.xTile, this.yTile);
-    if(block.use()){
+Player.prototype.activate = function(block) {
+    if(this.itemUseTime > 0) {
         return;
     }
+    this.itemUseTime = 5;
+
+    block = block || this.level.getBlock(this.xTile, this.yTile);
+    return block.use();
 };
-Player.prototype.collide = function(e) {
-    
-};
+Player.prototype.collide = function(e) {};
 Player.prototype.render = function(board) {
-    Art.player.draw(board.ctx, this.x, this.y - 18, Math.floor(this.animTime/2)% 2);
+    Art.player.draw(board.ctx, this.x, this.y - 18, Math.floor(this.animTime/2) % 2);
 };
 
 Player.prototype.renderLight = function(light) {
     var ctx = light.ctx,
         flux = Math.floor((Math.cos(this.level.frame / 2) * 2)) + 2;
-    Screen.drawLightCirc(ctx, this.x + 10, this.y + 10, 40 + flux);
+    Screen.drawLightCirc(ctx, this.x + 10, this.y +0, 30 + flux);
 }
