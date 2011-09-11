@@ -77,7 +77,7 @@ Level.loadLevel = function(game, id) {
                 var entity = null;
                 switch(tilePair[0]) {
                     case "P":
-                        entity = new Item(tilePair[1]);
+                        entity = new Loot(tilePair[1]);
                         entity.level = level;
                         entity.x = (idx % level.width) * level.blockWidth;
                         entity.y = ~~(idx / level.width) * level.blockHeight;
@@ -102,8 +102,6 @@ Level.loadLevel = function(game, id) {
             .filter(function(item){
                 return item !== null;
             });
-
-    console.log(level.mids);
     
     // Add the entities to the level
     levelEntities.forEach(function(e){

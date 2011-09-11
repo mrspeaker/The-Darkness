@@ -4,7 +4,7 @@ function Player(){
     this.fireTime = 0;
     this.animTime = 0;
     this.itemUseTime = 0;
-    this.width = 12;
+    this.width = 18;
     this.height = 12;
     this.items = [];
 }

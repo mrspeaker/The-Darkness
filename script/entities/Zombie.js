@@ -3,7 +3,7 @@ function Zombie() {
     this.ya = 3;
     this.width = 12;
     this.height = 12;
-    this.animTime = 0;
+    this.animFrame = 0;
     this.frame = 0;
     this.state = this.states.returning;
 };
@@ -22,12 +22,14 @@ Zombie.prototype.switchState = function(newState, data) {
     this.lastData = this.stateData;
     this.state = newState;
     this.stateData = data;
+    this.animFrame = 0;
 };
 
 Zombie.prototype.tick = function() {
     switch(this.state) {
         case this.states.rand:
             var blnMove = this.move();
+            blnMove && this.animFrame++;
             if(!blnMove || (this.xa === 0 && this.ya === 0) || (Math.random() < 0.01)){
                 this.rand();
             };
@@ -54,6 +56,7 @@ Zombie.prototype.tick = function() {
             break;
         case this.states.attack:
             var blnMove = this.move();
+            blnMove && this.animFrame++;
             if(!blnMove || (this.xa === 0 && this.ya === 0) || (Math.random() < 0.1)){
                 this.attack();
             };
@@ -93,7 +96,7 @@ Zombie.prototype.rand = function() {
     this.ya = Math.floor(Math.random()*8) - 4;
 };
 Zombie.prototype.render = function(board) {
-    Art.player.draw(board.ctx, this.x, this.y - 18, (Math.floor(this.frame/2)% 2) + 2);
+    Art.player.draw(board.ctx, this.x, this.y - 18, (Math.floor(this.animFrame/2)% 2) + 2);
 };
 
 Zombie.prototype.collide = function(e) {

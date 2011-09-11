@@ -20,8 +20,8 @@ function Entity(){
     this.xa = 0;
     this.ya = 0;
     
-    this.width = 12;
-    this.height = 24;
+    this.width = 18;
+    this.height = 20;
 
     this.level;
     this.xTile;

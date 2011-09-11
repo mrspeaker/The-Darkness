@@ -1,6 +1,6 @@
 var Art = {
     init: function() {
-        this.main = new SpriteSheet("res/main.png", 12, 24, 5, 5);
+        this.main = new SpriteSheet("res/main.png", 18, 24, 5, 5);
         this.tiles = new SpriteSheet("res/brix2.png", 32, 48, 5, 5);
         this.player = new Sprite(this.main, 0, 0);
         this.pickup = new Sprite(this.main, 4, 0);
