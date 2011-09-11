@@ -55,7 +55,6 @@ Entity.prototype = {
     },
     move: function() {
         var ok = false;
-        
         // Slow down horizontal movement
         if(this.xa !== 0 && this.ya !== 0) {
             var dd = ((this.xa * this.xa) / this.xSpeed) + ((this.ya * this.ya) / this.ySpeed);
@@ -120,26 +119,43 @@ Entity.prototype = {
         return ok;
     },
     isFree: function(xx, yy) {
-        var x0 = Math.floor(xx / this.level.blockWidth);
-        var x1 = Math.floor((xx + this.width) / this.level.blockWidth);
-        var y0 = Math.floor(yy / this.level.blockHeight);
-        var y1 = Math.floor((yy + this.height) / this.level.blockHeight);
+        var x0 = Math.floor(xx / this.level.blockWidth),
+            x1 = Math.floor((xx + this.width) / this.level.blockWidth),
+            y0 = Math.floor(yy / this.level.blockHeight),
+            y1 = Math.floor((yy + this.height) / this.level.blockHeight);
 
-        if (this.level.getBlock(x0, y0).blocks(this)) return false;
-        if (this.level.getBlock(x1, y0).blocks(this)) return false;
-        if (this.level.getBlock(x0, y1).blocks(this)) return false;
-        if (this.level.getBlock(x1, y1).blocks(this)) return false;
+        var block, blocks = [];
+        if ((block = this.level.getBlock(x0, y0)).blocks(this)) return false;
+        blocks.push(block);
+        
+        if (x0 !== x1) {
+            if((block = this.level.getBlock(x1, y0)).blocks(this)) return false;
+            blocks.push(block);
+        }
+        
+        if(y0 !== y1) {
+            if((block = this.level.getBlock(x0, y1)).blocks(this)) return false;
+            blocks.push(block);
+        }
+        
+        if(x0 !== x1 && y0 !== y1) {
+            if ((block = this.level.getBlock(x1, y1)).blocks(this)) return false;
+            blocks.push(block);
+        }
 
-        // For all blocks ent occupies
-        //// es = level.getBlock(x,y).entities;
-        //// for each entitey
-        ////// if it's "this" continues
-        ////// if current x, y doenst block and nex x,y does block
-        //////// e.collide(this)
-        //////// this.collide(e)
-        //////// (??.. how does this not get called 4 times? (2 times each entity))
-        //////// return false
+        var _this = this;
+        blocks.forEach(function(block) {
+            block.entities.forEach(function(entity){
+                if(entity === _this) return;
 
+                if(!(_this.intersects(_this.x, _this.y, entity)) &&
+                    _this.intersects(xx, yy, entity)) {
+                        // Why not hit 4 times? (2 per ent)
+                        entity.collide(_this);
+                        _this.collide(entity);
+                }
+            });
+        });
         return true;
     },
     collide: function() {},
@@ -152,5 +168,12 @@ Entity.prototype = {
         return false;
     },
     render: function(ctx) {},
-    renderLight: function(ctx) {}
+    renderLight: function(ctx) {},
+    intersects: function(x, y, e2) {
+        return !(
+            e2.x > x + this.width ||
+            e2.x + e2.width < x ||
+            e2.y > y + this.height ||
+            e2.y + e2.height < y);
+    }
 }

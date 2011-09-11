@@ -3,6 +3,7 @@ var Art = {
         this.main = new SpriteSheet("res/main.png", 12, 24, 5, 5);
         this.tiles = new SpriteSheet("res/brix2.png", 32, 48, 5, 5);
         this.player = new Sprite(this.main, 0, 0);
+        this.pickup = new Sprite(this.main, 4, 0);
     },
     drawTile: function(ctx, ss, xTile, yTile, x, y) {
         ctx.drawImage(ss.image,
@@ -33,6 +34,7 @@ function SpriteSheet(imageName, w, h, framesX, framesY, xOff, yOff, xSpace, ySpa
 }
 
 function Sprite(ss, startXFrame, startYFrame) {
+    console.log(ss, startXFrame, startYFrame);
     this.startXFrame = startXFrame;
     this.startYFrame = startYFrame;
     this.image = ss.image;
@@ -46,7 +48,7 @@ function Sprite(ss, startXFrame, startYFrame) {
 Sprite.prototype = {
     draw: function(ctx, x,  y, frame) {
         ctx.drawImage(this.image,
-            (this.width * frame),
+            (this.width * (frame + this.startXFrame)),
             this.yOffset + this.yOff,
             this.width,
             this.height,

@@ -50,7 +50,7 @@ Zombie.prototype.tick = function() {
             if(1 == 1) {
                 this.switchState(this.states.walkTo, {x: 10, y: 10});
             }
-            
+
             break;
         case this.states.attack:
             var blnMove = this.move();
@@ -60,7 +60,7 @@ Zombie.prototype.tick = function() {
             if(Math.random()<0.01){
                 this.switchState(this.states.watch);
             }
-            
+
             break;
         case this.states.walkTo:
             if(this.frame === 0) {
@@ -78,9 +78,12 @@ Zombie.prototype.attack = function() {
     var dx = this.x - px,
         dy = this.y - py,
         hyp = Math.sqrt(dx*dx + dy*dy);
+
     // Normalise
-    dx /= hyp;
-    dy /= hyp;
+    if(hyp !== 0) {
+        dx /= hyp;
+        dy /= hyp;
+    }
 
     this.xa = -Math.floor(dx * 4);
     this.ya = -Math.floor(dy * 4);
@@ -92,3 +95,9 @@ Zombie.prototype.rand = function() {
 Zombie.prototype.render = function(board) {
     Art.player.draw(board.ctx, this.x, this.y - 18, (Math.floor(this.frame/2)% 2) + 2);
 };
+
+Zombie.prototype.collide = function(e) {
+    if(e instanceof Player) {
+        e.hurt(this, 1)
+    }
+}

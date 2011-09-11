@@ -1,5 +1,6 @@
 function Level() {
     this.blocks = [];
+    this.mids = [];
     this.width = 0;
     this.height = 0;
     this.entities = [];
@@ -26,7 +27,7 @@ Level.loadLevel = function(game, id) {
     level.init(game);
     level.width = data.width;
     level.height = data.height;
-    level.blocks = data.blocks
+    level.blocks = data.base
         .replace(/\s/g, "")
         .split("")
         .reduce(function(acc, el){ 
@@ -50,17 +51,8 @@ Level.loadLevel = function(game, id) {
                 case "L": b = new StandardLampBlock(tilePair[1]); break;
                 case "E": b = new ExitBlock(tilePair[1]); break;
                 case "S": b = new SpawnBlock(tilePair[1]); break;
-                case "Z": 
-                    b = new Block(-1);
-                    var zombie = new Zombie();
-                    zombie.level = level;
-                    zombie.x = (idx % level.width) * level.blockWidth;
-                    zombie.y = ~~(idx / level.width) * level.blockHeight;
-                    zombie.xa = ~~(Math.random() * 8) - 4;
-                    zombie.ya = ~~(Math.random() * 8) - 4;
-                    levelEntities.push(zombie);
-                    break;
                 case "!": b = new TriggerBlock(tilePair[1]); break;
+                case "#": b = new TriggerBlock(tilePair[1], true); break;
                 default:
                     console.log("Unknown block:", tilePair[0]);
                     b = new Block();
@@ -68,7 +60,51 @@ Level.loadLevel = function(game, id) {
             b.init(level, idx % level.width, ~~(idx / level.width));
             return b;
         });
+    
+    level.mids = data.mids
+           .replace(/\s/g, "")
+           .split("")
+           .reduce(function(acc, el){ 
+               if(acc[acc.length - 1].length == 0 || acc[acc.length - 1].length == 1){ 
+                   acc[acc.length - 1].push(el); 
+               } 
+               else { 
+                   acc.push([el]); 
+               } 
+               return acc; 
+           }, [[]])
+           .map(function(tilePair, idx){
+                var entity = null;
+                switch(tilePair[0]) {
+                    case "P":
+                        entity = new Item(tilePair[1]);
+                        entity.level = level;
+                        entity.x = (idx % level.width) * level.blockWidth;
+                        entity.y = ~~(idx / level.width) * level.blockHeight;
+                        levelEntities.push(entity);
+                        break;
+                    case "Z":
+                        entity = new Zombie();
+                        entity.level = level;
+                        entity.x = (idx % level.width) * level.blockWidth;
+                        entity.y = ~~(idx / level.width) * level.blockHeight;
+                        entity.xa = ~~(Math.random() * 8) - 4;
+                        entity.ya = ~~(Math.random() * 8) - 4;
+                        levelEntities.push(entity);
+                        break;
+                    case ".":
+                        break;
+                    default:
+                        console.log("Unknown mid:", tilePair[0], tilePair[1]);
+                }
+               return entity;
+            })
+            .filter(function(item){
+                return item !== null;
+            });
 
+    console.log(level.mids);
+    
     // Add the entities to the level
     levelEntities.forEach(function(e){
         level.addEntity(e)

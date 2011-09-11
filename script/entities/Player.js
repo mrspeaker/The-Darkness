@@ -6,6 +6,7 @@ function Player(){
     this.itemUseTime = 0;
     this.width = 12;
     this.height = 12;
+    this.items = [];
 }
 Player.prototype = new Entity;
 Player.constructor = Player;
@@ -24,7 +25,7 @@ Player.prototype.ticka = function(input) {
     this.ya = down ? this.speed : up ? -this.speed : 0;
     this.dir = right | left | up | down;
 
-    if(this.dir){
+    //if(this.dir){
         blocked = !(this.move());
         !blocked && this.animTime++;
 
@@ -37,7 +38,7 @@ Player.prototype.ticka = function(input) {
                     this.yTile + yOff));
 
         }
-    }
+    //}
 
     // do fire
     if((--this.fireTime <= 0) && zkey) {
@@ -69,4 +70,11 @@ Player.prototype.renderLight = function(light) {
     var ctx = light.ctx,
         flux = Math.floor((Math.cos(this.level.frame / 2) * 2)) + 2;
     Screen.drawLightCirc(ctx, this.x + 10, this.y +0, 30 + flux);
+}
+Player.prototype.hurt = function(e, ammount) {
+    this.health -= ammount;
+    console.log(this.health);
+    if(this.health === 0) {
+
+    }
 }

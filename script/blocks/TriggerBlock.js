@@ -1,6 +1,7 @@
-function TriggerBlock(id) {
+function TriggerBlock(id, horiz) {
     this.id = id;
     this.on = false;
+    this.horiz = horiz;
 }
 TriggerBlock.prototype = new Block;
 TriggerBlock.constructor = TriggerBlock;
@@ -25,18 +26,33 @@ TriggerBlock.prototype.addEntity = function(e) {
 };
 TriggerBlock.prototype.render = function(board) {
     var ctx = board.ctx;
-    ctx.fillStyle = "#977";
-    ctx.fillRect(
-        this.x * this.level.blockWidth + 10,
-        this.y * this.level.blockHeight + 10,
-        10,
-        10)
+    ctx.fillStyle = "#494";
+    if(!this.horiz)
+        ctx.fillRect(
+            this.x * this.level.blockWidth,
+            this.y * this.level.blockHeight + 9,
+            this.level.blockWidth,
+            4)
+    else
+        ctx.fillRect(
+            this.x * this.level.blockWidth + 14,
+            this.y * this.level.blockHeight,
+            4,
+            this.level.blockHeight)
+
 };
 TriggerBlock.prototype.renderLight = function(light) {
     var ctx = light.ctx;
+    ctx.fillStyle = "rgba(0,0,0,0.3)";
+    if(this.horiz)
+        ctx.fillRect(this.x * this.level.blockWidth + 15, this.y * this.level.blockHeight, 2, this.level.blockHeight);
+    else
+        ctx.fillRect(this.x * this.level.blockWidth,this.y * this.level.blockHeight + 10, this.level.blockWidth,2);
+   /*
     if(!this.on) {
-        Screen.drawLightCirc(ctx, this.x * this.level.blockWidth + 20, this.y * this.level.blockHeight + 10, 10);
-        return;
-    }
-    Screen.drawLightCirc(ctx, this.x * this.level.blockWidth + 20, this.y * this.level.blockHeight + 10, 5);
+           Screen.drawLightCirc(ctx, this.x * this.level.blockWidth + 30, this.y * this.level.blockHeight + 10, 10);
+           return;
+       }
+       Screen.drawLightCirc(ctx, this.x * this.level.blockWidth + 30, this.y * this.level.blockHeight + 10, 10);*/
+   
 }
