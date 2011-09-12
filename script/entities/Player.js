@@ -73,7 +73,7 @@ Player.prototype.render = function(board) {
 Player.prototype.renderLight = function(light) {
     var ctx = light.ctx,
         flux = Math.floor((Math.cos(this.level.frame / 2) * 2)) + 2;
-    Screen.drawLightCirc(ctx, this.x + 10, this.y +0, 30 + flux);
+    Renderer.drawLightCirc(ctx, this.x + 10, this.y +0, 30 + flux);
 }
 Player.prototype.hurt = function(e, ammount) {
     this.health -= ammount;

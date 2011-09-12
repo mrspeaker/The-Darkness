@@ -11,6 +11,6 @@ StandardLampBlock.prototype.use = function(e) {
 StandardLampBlock.prototype.renderLight = function(light) {
     var ctx = light.ctx;
     if(this.on) {
-        Screen.drawLightCirc(ctx, this.x * this.level.blockWidth + 20, this.y * this.level.blockHeight + 10, 60);
+        Renderer.drawLightCirc(ctx, this.x * this.level.blockWidth + 20, this.y * this.level.blockHeight + 10, 60);
     } 
 }

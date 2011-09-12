@@ -1,7 +1,7 @@
-function Menu() {
+function Screen() {
     this.isRemoved = false;
 }
-Menu.prototype = {
+Screen.prototype = {
     render: function(ctx) {},
     tick: function(input) {},
     remove: function(){

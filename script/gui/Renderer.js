@@ -1,9 +1,9 @@
-function Screen() {
+function Renderer() {
     this.width;
     this.height;
 
 }
-Screen.drawLightCirc = function(ctx, x, y, rad, alf) {
+Renderer.drawLightCirc = function(ctx, x, y, rad, alf) {
     var light = ctx.createRadialGradient(x, y, 0, x, y, rad);
     light.addColorStop(0, 'rgba(255,180,0,' + (alf || "0.8") + ')');
     light.addColorStop(1, 'rgba(255,150,0,0)');
@@ -13,7 +13,7 @@ Screen.drawLightCirc = function(ctx, x, y, rad, alf) {
     ctx.fillRect(x - rad, y - rad, x + rad, y + rad);
 };
 
-Screen.drawLightLine = function(ctx, x, y, x2, y2, col) {
+Renderer.drawLightLine = function(ctx, x, y, x2, y2, col) {
     var light = ctx.createRadialGradient(x, y, 0, x, y, rad);
     light.addColorStop(0, 'rgba(255,180,0,' + (alf || "0.8") + ')');
     light.addColorStop(1, 'rgba(255,150,0,0)');
@@ -23,7 +23,7 @@ Screen.drawLightLine = function(ctx, x, y, x2, y2, col) {
     ctx.fillRect(x - rad, y - rad, x + rad, y + rad);
 };
 
-Screen.prototype = {
+Renderer.prototype = {
     init: function() {
         // set up ctxs
         var board = {};
@@ -36,17 +36,17 @@ Screen.prototype = {
         light.w = light.ctx.canvas.width;
         light.h = light.ctx.canvas.height;
 
-        var menu = {};
-        menu.ctx = document.getElementById("menu").getContext("2d");
-        menu.w = menu.ctx.canvas.width;
-        menu.h = menu.ctx.canvas.height;
+        var overlay = {};
+        overlay.ctx = document.getElementById("overlay").getContext("2d");
+        overlay.w = overlay.ctx.canvas.width;
+        overlay.h = overlay.ctx.canvas.height;
 
         this.board = board;
         this.light = light;
-        this.menu = menu;
+        this.overlay = overlay;
         this.bc = board.ctx;
         this.lc = light.ctx;
-        this.mc = menu.ctx;
+        this.oc = overlay.ctx;
 
     },
     draw: function() {
@@ -102,8 +102,8 @@ Screen.prototype = {
             e.renderLight(canvas);
         });
 
-        if(game.menu) {
-            game.menu.render(this.menu);
+        if(game.screen) {
+            game.screen.render(this.overlay);
         }
 
     }

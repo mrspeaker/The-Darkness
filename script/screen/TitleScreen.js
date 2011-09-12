@@ -1,30 +1,30 @@
-function TitleMenu(){
+function TitleScreen(){
     this.frame = 0;
 };
-TitleMenu.prototype = new Menu;
-TitleMenu.constructor = TitleMenu;
+TitleScreen.prototype = new Screen;
+TitleScreen.constructor = TitleScreen;
 
-TitleMenu.prototype.tick = function(game, input) {
+TitleScreen.prototype.tick = function(game, input) {
     if(this.frame++ < 20){
         return;
     };
     
     if(this.isRemoved){
-        game.menu = null;
+        game.screen = null;
         return false;
     }
     if(input.keys[Input.SPACE] === "newpress") {
         this.remove();
     }
 }
-TitleMenu.prototype.render = function(menu) {
-    var ctx = menu.ctx;
+TitleScreen.prototype.render = function(screen) {
+    var ctx = screen.ctx;
     if(this.isRemoved) {
-        ctx.clearRect(0, 0, menu.w, menu.h);
+        ctx.clearRect(0, 0, screen.w, screen.h);
         return false;
     }
     var rn = function(up){ return ~~(Math.random() * up)};
     ctx.fillStyle = "rgba(100, 0,0, 0.5)";
-    ctx.fillRect(rn(menu.w), rn(menu.h), 70, 70);
+    ctx.fillRect(rn(screen.w), rn(screen.h), 70, 70);
 
 }

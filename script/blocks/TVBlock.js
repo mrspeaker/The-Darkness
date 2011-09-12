@@ -14,9 +14,9 @@ TVBlock.prototype.render = function(board) {
 TVBlock.prototype.renderLight = function(light) {
     var ctx = light.ctx;
     if(!this.on) {
-        Screen.drawLightCirc(ctx, this.x * this.level.blockWidth + 15, this.y * this.level.blockHeight + 5, 15);
+        Renderer.drawLightCirc(ctx, this.x * this.level.blockWidth + 15, this.y * this.level.blockHeight + 5, 15);
     } 
     else {
-        Screen.drawLightCirc(ctx, this.x * this.level.blockWidth + 5, this.y * this.level.blockHeight + 10, 100);
+        Renderer.drawLightCirc(ctx, this.x * this.level.blockWidth + 5, this.y * this.level.blockHeight + 10, 100);
     }
 }

@@ -8,7 +8,7 @@
                 padding: 0;
                 background-color: #000;
             }
-            #board, #light, #menu {
+            #board, #light, #overlay {
                 position:absolute;
                 top: 0;
                 left: 0;
@@ -42,7 +42,7 @@
         <div id="container">
             <canvas id="board" width="600" height="450"></canvas>
             <canvas id="light" width="600" height="450"></canvas>
-            <canvas id="menu" width="600" height="530"></canvas>
+            <canvas id="overlay" width="600" height="530"></canvas>
             <div id="status">
                 Health: <span id="health">-</span><br/>
                 Points: <span id="score">-</span><br/>
@@ -59,7 +59,6 @@
         <script src="script/entities/lights/LightSource.js" type="text/javascript" charset="utf-8"></script>
         <script src="script/level/Level.js" type="text/javascript" charset="utf-8"></script>
         <script src="script/level/datas.js" type="text/javascript" charset="utf-8"></script>
-        <script src="script/menu/Menu.js" type="text/javascript" charset="utf-8"></script>
         <script src="script/blocks/Block.js" type="text/javascript" charset="utf-8"></script>
         <script src="script/blocks/SolidBlock.js" type="text/javascript" charset="utf-8"></script>
         <script src="script/blocks/ThingBlock.js" type="text/javascript" charset="utf-8"></script>
@@ -70,8 +69,10 @@
         <script src="script/blocks/LockedDoorBlock.js" type="text/javascript" charset="utf-8"></script>
         <script src="script/blocks/StandardLampBlock.js" type="text/javascript" charset="utf-8"></script>
         <script src="script/blocks/BigLightBlock.js" type="text/javascript" charset="utf-8"></script>
-        <script src="script/menu/TitleMenu.js" type="text/javascript" charset="utf-8"></script>
-        <script src="script/gui/Screen.js" type="text/javascript" charset="utf-8"></script>
+        <script src="script/screen/Screen.js" type="text/javascript" charset="utf-8"></script>
+        <script src="script/screen/TitleScreen.js" type="text/javascript" charset="utf-8"></script>
+        <script src="script/screen/PauseScreen.js" type="text/javascript" charset="utf-8"></script>
+        <script src="script/gui/Renderer.js" type="text/javascript" charset="utf-8"></script>
         <script src="script/Input.js" type="text/javascript" charset="utf-8"></script>
         <script src="script/Game.js" type="text/javascript" charset="utf-8"></script>
         <script src="script/Component.js" type="text/javascript" charset="utf-8"></script>
@@ -79,8 +80,8 @@
             Component.init();
             
             document.addEventListener("click", function(){
-                if(!Component.game.menu) {
-                    Component.game.menu = new TitleMenu();
+                if(!Component.game.screen) {
+                    Component.game.screen = new PauseScreen();
                 };
             }, false);
         </script>

@@ -4,16 +4,16 @@
     Comp.init -> sets up game, screen and timing.
         game.reset ->
         comp.run ->
-    Comp.run -> loops game.tick & screen.render
+    Comp.run -> loops game.tick & renderer.render
         game.tick -> update things
             player.ticka ->
             level.tick ->
                 all entities.tick ->
                 all entities.updatePos ->
-        screen.render -> renders the game
+        renderer.render -> renders the game
             all tiles.render ->
             all entities.render ->
-            if menu, menu.render ->
+            if screen, screen.render ->
 */
 var Component = {
     
@@ -21,20 +21,20 @@ var Component = {
     SPEED: 50,
     
     game: null,
-    screen: null,
+    renderer: null,
     input: null,
 
     init: function(){
         this.game = new Game()
         this.game.init();
         
-        this.screen = new Screen();
-        this.screen.init();
+        this.renderer = new Renderer();
+        this.renderer.init();
         
         this.input = new Input();
         this.input.init();
         
-        this.game.reset(); // Should be called from menu
+        this.game.reset(); // Should be called from screen
         this.start();
     },
     
@@ -65,6 +65,6 @@ var Component = {
     },
     
     render: function(){
-        this.screen.render(this.game);
+        this.renderer.render(this.game);
     }
 };

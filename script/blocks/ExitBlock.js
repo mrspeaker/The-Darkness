@@ -14,5 +14,5 @@ ExitBlock.prototype.addEntity = function(e) {
 };
 ExitBlock.prototype.renderLight = function(light) {
     var ctx = light.ctx;
-    Screen.drawLightCirc(ctx, this.x * this.level.blockWidth + 10, this.y * this.level.blockHeight + 10, 10);
+    Renderer.drawLightCirc(ctx, this.x * this.level.blockWidth + 10, this.y * this.level.blockHeight + 10, 10);
 }

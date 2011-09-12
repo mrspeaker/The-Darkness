@@ -50,9 +50,9 @@ TriggerBlock.prototype.renderLight = function(light) {
         ctx.fillRect(this.x * this.level.blockWidth,this.y * this.level.blockHeight + 10, this.level.blockWidth,2);
    /*
     if(!this.on) {
-           Screen.drawLightCirc(ctx, this.x * this.level.blockWidth + 30, this.y * this.level.blockHeight + 10, 10);
+           Renderer.drawLightCirc(ctx, this.x * this.level.blockWidth + 30, this.y * this.level.blockHeight + 10, 10);
            return;
        }
-       Screen.drawLightCirc(ctx, this.x * this.level.blockWidth + 30, this.y * this.level.blockHeight + 10, 10);*/
+       Renderer.drawLightCirc(ctx, this.x * this.level.blockWidth + 30, this.y * this.level.blockHeight + 10, 10);*/
    
 }

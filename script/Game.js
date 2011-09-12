@@ -1,6 +1,6 @@
 function Game() {
     this.level;
-    this.menu;
+    this.screen;
     this.player;
     this.tmpsource = [];
     this.pauseTime;
@@ -23,8 +23,8 @@ Game.prototype = {
             this.pauseTime--;
             return;
         }
-        if (this.menu != null) {
-            this.menu.tick(this, keys);
+        if (this.screen != null) {
+            this.screen.tick(this, keys);
             return;
         }
         this.player.ticka(keys);
@@ -32,7 +32,7 @@ Game.prototype = {
     },
 
     reset: function() {
-        this.menu = new TitleMenu();
+        this.screen = new TitleScreen();
                 
         this.level = Level.loadLevel(this, "a");
 
@@ -70,7 +70,7 @@ Game.prototype = {
         this.level.addEntity(this.player);
     },
 
-    clearMenu: function() {
-        this.menu = null;
+    clearScreen: function() {
+        this.screen = null;
     }
 }

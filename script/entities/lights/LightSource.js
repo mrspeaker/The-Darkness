@@ -28,7 +28,7 @@ LightSource.prototype.renderLight = function(light) {
     var ctx = light.ctx;
     var flux = Math.floor((Math.cos(this.level.frame / 2) * 2)) + 2;
 
-    Screen.drawLightCirc(ctx, this.x + 10, this.y + 10, 35 + flux, this.life);
+    Renderer.drawLightCirc(ctx, this.x + 10, this.y + 10, 35 + flux, this.life);
 }
 
  
