@@ -47,6 +47,7 @@ Level.loadLevel = function(game, id) {
                 case ">": b = new ThingBlock(); break;
                 case "D": b = new LockedDoorBlock(); break;
                 case "U": b = new BigLightBlock(tilePair[1]); break;
+                case "C": b = new CutSceneBlock(tilePair[1]); break;
                 case "T": b = new TVBlock(tilePair[1]); break;
                 case "L": b = new StandardLampBlock(tilePair[1]); break;
                 case "E": b = new ExitBlock(tilePair[1]); break;
@@ -76,6 +77,11 @@ Level.loadLevel = function(game, id) {
            .map(function(tilePair, idx){
                 var entity = null;
                 switch(tilePair[0]) {
+                    case "C":
+                        // TODO: freak - how to trigger blocks from midz...
+                        //entity = new CutSceneBlock(tilePair[1]);
+                        //entity.init(level, idx % level.width, ~~(idx / level.width));
+                        break;
                     case "P":
                         entity = new Loot(tilePair[1]);
                         entity.level = level;
