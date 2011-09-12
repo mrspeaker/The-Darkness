@@ -1,5 +1,6 @@
 function Player(){
-    this.health = 20;
+    this.health = 5;
+    this.score = 0;
     this.speed = 5;
     this.fireTime = 0;
     this.animTime = 0;
@@ -51,6 +52,9 @@ Player.prototype.ticka = function(input) {
 
     if(this.itemUseTime > 0) this.itemUseTime--;
 };
+Player.prototype.gotLoot = function(e) {
+    this.score += 100;
+}
 
 Player.prototype.activate = function(block) {
     if(this.itemUseTime > 0) {
@@ -73,8 +77,7 @@ Player.prototype.renderLight = function(light) {
 }
 Player.prototype.hurt = function(e, ammount) {
     this.health -= ammount;
-    console.log(this.health);
     if(this.health === 0) {
-
+        this.level.game.reset();
     }
 }

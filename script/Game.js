@@ -9,6 +9,13 @@ function Game() {
 Game.prototype = {
     init: function() {
         Art.init();
+        this.guiInit();
+    },
+    
+    guiInit: function() {
+        this.gui = {};
+        this.gui.health = document.getElementById("health");
+        this.gui.score = document.getElementById("score");
     },
 
     tick: function(keys) {
@@ -25,6 +32,8 @@ Game.prototype = {
     },
 
     reset: function() {
+        this.menu = new TitleMenu();
+                
         this.level = Level.loadLevel(this, "a");
 
         this.player = new Player();

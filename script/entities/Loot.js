@@ -10,8 +10,9 @@ Loot.prototype.render = function(board) {
 }
 Loot.prototype.collide = function(e) {
     if(!(e instanceof Player)) {
-        return
+        return;
     }
     // TODO: Remove it entirely!
     this.pickedUp = true;
+    e.gotLoot(this);
 }

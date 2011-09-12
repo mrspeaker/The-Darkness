@@ -83,12 +83,13 @@ Screen.prototype = {
             });
         }
 
+        game.gui.health.innerHTML = game.player.health;
+        game.gui.score.innerHTML = game.player.score;
+        
         // Render the lights
         this.lc.globalCompositeOperation = "source-over";
         this.lc.fillStyle = "#000";
         this.lc.fillRect(0, 0, this.light.w, this.light.h);
-
-
 
         this.lc.globalCompositeOperation = "destination-out";
 

@@ -18,9 +18,21 @@
                 position: relative;
                 background-color: #799;
                 width: 600px;
-                height: 450px;
+                height: 530px;
                 margin: 0px auto;
                 border: 2px solid #222;
+            }
+            
+            #status {
+                border-top: 1px solid #444;
+                background-color: #003;
+                width: 590px;
+                color: #777;
+                position: absolute;
+                bottom: 0;
+                height: 70px;
+                font: 13pt helvetica bold;
+                padding: 5px;
             }
             
         </style>
@@ -30,10 +42,15 @@
         <div id="container">
             <canvas id="board" width="600" height="450"></canvas>
             <canvas id="light" width="600" height="450"></canvas>
-            <canvas id="menu" width="600" height="450"></canvas>
+            <canvas id="menu" width="600" height="530"></canvas>
+            <div id="status">
+                Health: <span id="health">-</span><br/>
+                Points: <span id="score">-</span><br/>
+                Items: <span id="items">-</span>
+            </div>
         </div>
         <script src="lib/astar.js" type="text/javascript" charset="utf-8"></script>
-        
+
         <script src="script/gui/Art.js" type="text/javascript" charset="utf-8"></script>
         <script src="script/entities/Entity.js" type="text/javascript" charset="utf-8"></script>
         <script src="script/entities/Player.js" type="text/javascript" charset="utf-8"></script>

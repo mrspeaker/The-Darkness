@@ -5,7 +5,10 @@ TitleMenu.prototype = new Menu;
 TitleMenu.constructor = TitleMenu;
 
 TitleMenu.prototype.tick = function(game, input) {
-    this.frame++;
+    if(this.frame++ < 20){
+        return;
+    };
+    
     if(this.isRemoved){
         game.menu = null;
         return false;
@@ -22,6 +25,6 @@ TitleMenu.prototype.render = function(menu) {
     }
     var rn = function(up){ return ~~(Math.random() * up)};
     ctx.fillStyle = "rgba(100, 0,0, 0.5)";
-    ctx.fillRect(rn(menu.w), rn(menu.h), 30, 30);
+    ctx.fillRect(rn(menu.w), rn(menu.h), 70, 70);
 
 }
