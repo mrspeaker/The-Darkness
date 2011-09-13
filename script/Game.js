@@ -33,7 +33,7 @@ Game.prototype = {
 
     reset: function() {
         this.screen = new TitleScreen();
-                
+        Level.loaded = {};
         this.level = Level.loadLevel(this, "a");
 
         this.player = new Player();

@@ -15,7 +15,6 @@ function Level() {
 }
 Level.loaded = {};
 Level.loadLevel = function(game, id) {
-    
     var level = new Level(),
         data = leveldata.byId(id),
         levelEntities = [];

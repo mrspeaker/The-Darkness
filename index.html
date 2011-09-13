@@ -7,6 +7,7 @@
                 margin: 0;
                 padding: 0;
                 background-color: #000;
+                font-family: fantasy, cursive, serif;
             }
             #board, #light, #overlay {
                 position:absolute;
@@ -25,21 +26,21 @@
             }
             
             #status {
-                border-top: 1px solid #444;
-                background-color: #003;
+                border-top: 1px solid #222;
+                background-color: #111;
                 width: 590px;
                 color: #777;
                 position: absolute;
                 bottom: 0;
                 height: 70px;
-                font: 13pt helvetica bold;
+                font-size: 12pt;
+                font-weight: bold;
                 padding: 5px;
             }
             
         </style>
     </head>
     <body>
-        <div id="deb" style="color:#fff">...</div>
         <div id="container">
             <canvas id="board" width="600" height="450"></canvas>
             <canvas id="light" width="600" height="450"></canvas>

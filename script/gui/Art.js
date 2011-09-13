@@ -4,6 +4,25 @@ var Art = {
         this.tiles = new SpriteSheet("res/brix2.png", 32, 48, 5, 5);
         this.player = new Sprite(this.main, 0, 0);
         this.pickup = new Sprite(this.main, 4, 0);
+        this.mummy = new ArtImage("res/mummy.png");
+        
+        
+        this.fonts = {
+            base: " fantasy, cursive, serif"
+        };
+        var fonts = {
+            h1: "bold 24pt",
+            h2: "bold 18pt",
+            h3: "16pt",
+            h4: "13pt",
+            normal: "12pt" 
+        }
+        this.colours = {
+            title: "#ccc"
+        }
+        for(var font in fonts) {
+            this.fonts[font] = fonts[font] + this.fonts.base;
+        }
     },
     drawTile: function(ctx, ss, xTile, yTile, x, y) {
         ctx.drawImage(ss.image,
@@ -15,6 +34,19 @@ var Art = {
             y - 8,
             ss.width,
             ss.height);
+    }
+}
+
+function ArtImage(path) {
+    this.image = new Image();
+    this.image.src = path;
+    this.draw = function(ctx, x, y, scaleX, scaleY, rot) {
+        ctx.save();
+        ctx.translate(x, y);
+        if(scaleX) ctx.translate(scaleX, scaleY);
+        if(rot) ctx.rotate(rot);
+        ctx.drawImage(this.image, x, y);
+        ctx.restore();
     }
 }
 
@@ -34,7 +66,6 @@ function SpriteSheet(imageName, w, h, framesX, framesY, xOff, yOff, xSpace, ySpa
 }
 
 function Sprite(ss, startXFrame, startYFrame) {
-    console.log(ss, startXFrame, startYFrame);
     this.startXFrame = startXFrame;
     this.startYFrame = startYFrame;
     this.image = ss.image;
@@ -45,6 +76,7 @@ function Sprite(ss, startXFrame, startYFrame) {
     this.xOffset = ss.width + ss.xSpace;
     this.yOffset = startYFrame * (ss.height + ss.ySpace);
 }
+
 Sprite.prototype = {
     draw: function(ctx, x,  y, frame) {
         ctx.drawImage(this.image,
