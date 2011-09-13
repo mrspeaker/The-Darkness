@@ -1,5 +1,5 @@
-function LockedDoorBlock(id) {
-    this.id = id;
+function LockedDoorBlock(dir) {
+    this.dir = dir;
 }
 LockedDoorBlock.prototype = new Block;
 LockedDoorBlock.constructor = LockedDoorBlock;
@@ -18,6 +18,12 @@ LockedDoorBlock.prototype.tick = function() {
     }
 }
 LockedDoorBlock.prototype.render = function(board) {
-    if(this.blocksMotion)
-        Art.drawTile(board.ctx, Art.tiles, 3, 0, this.x * this.level.blockWidth, this.y * this.level.blockHeight);
+    if(!this.blocksMotion){
+        return
+    }
+    var xTile = this.dir === "0" ? 3 : 0,
+        yTile = this.dir === "0" ? 0 : 1;
+    
+    
+    Art.drawTile(board.ctx, Art.tiles, xTile, yTile, this.x * this.level.blockWidth, (this.y * this.level.blockHeight) -10);
 };

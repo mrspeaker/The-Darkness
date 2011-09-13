@@ -23,8 +23,13 @@ TitleScreen.prototype.render = function(screen) {
         ctx.clearRect(0, 0, screen.w, screen.h);
         return false;
     }
-    var rn = function(up){ return ~~(Math.random() * up)};
-    ctx.fillStyle = "rgba(100, 0,0, 0.5)";
-    ctx.fillRect(rn(screen.w), rn(screen.h), 70, 70);
+    ctx.clearRect(0, 0, screen.w, screen.h);
+            
+    ctx.fillStyle = "rgba(100, 0,0, 0.6)";
+    ctx.fillRect(0, 0, screen.w, screen.h);
+    
+    ctx.fillStyle = "#888";
+    ctx.font = "bold 16pt helvetica";
+    ctx.fillText("The TITLE SCREEN", 200, 220);
 
 }

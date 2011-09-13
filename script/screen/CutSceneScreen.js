@@ -28,10 +28,10 @@ CutSceneScreen.prototype.render = function(screen) {
     ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
     ctx.fillRect(0, 0, screen.w, screen.h);
     
-    ctx.fillStyle = "rgb(0,0,100)";
+    ctx.fillStyle = "rgb(100,0,0)";
     ctx.fillRect(40, 40, screen.w-80, screen.h-80);
     
     ctx.fillStyle = "#888";
     ctx.font = "bold 16pt helvetica";
-    ctx.fillText("cutscene " + this.id, 200 + (Math.sin(this.frame * 30) * 120), 220 + (Math.cos(this.frame * 30) * 120));
+    ctx.fillText("cutscene " + this.id, 200 + (Math.sin(this.frame * 290) * 10), 220 + (Math.cos(this.frame * 100) * 10));
 }
