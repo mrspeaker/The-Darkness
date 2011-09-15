@@ -1,11 +1,15 @@
 function Loot(id){
-    this.pickedUp = false;
     this.id = id;
 };
-Loot.prototype = new Entity;
+
+pickupable.call(
+    Loot.prototype = new Entity
+);
+
+
 Loot.constructor = Loot;
 Loot.prototype.render = function(board) {
-    if(!this.pickedUp)
+    if(!this.isPickedUp())
         Art.pickup.draw(board.ctx, this.x + 10, this.y - 10, 0);
 }
 Loot.prototype.collide = function(e) {
@@ -13,6 +17,5 @@ Loot.prototype.collide = function(e) {
         return;
     }
     // TODO: Remove it entirely!
-    this.pickedUp = true;
-    e.gotLoot(this);
+    this.pickUp(e);
 }

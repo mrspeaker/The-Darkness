@@ -8,6 +8,7 @@ function Player(){
     this.width = 18;
     this.height = 12;
     this.items = [];
+    this.carrying = null;
 }
 Player.prototype = new Entity;
 Player.constructor = Player;
@@ -43,6 +44,8 @@ Player.prototype.ticka = function(input) {
 
     // do fire
     if((--this.fireTime <= 0) && zkey) {
+        if(this.carrying) this.carrying.drop();
+        
         this.fireTime = 30;
         this.level.fire();
     }
@@ -52,9 +55,9 @@ Player.prototype.ticka = function(input) {
 
     if(this.itemUseTime > 0) this.itemUseTime--;
 };
-Player.prototype.gotLoot = function(e) {
+Player.prototype.pickedUp = function(e) {
     this.score += 100;
-}
+};
 
 Player.prototype.activate = function(block) {
     if(this.itemUseTime > 0) {
@@ -63,7 +66,14 @@ Player.prototype.activate = function(block) {
     this.itemUseTime = 5;
 
     block = block || this.level.getBlock(this.xTile, this.yTile);
-    return block.use();
+    var _this = this;
+    block.entities.forEach(function(e){
+        if(e === _this) {
+            return;
+        }
+        e.use(_this);
+    })
+    return block.use(this);
 };
 Player.prototype.collide = function(e) {};
 Player.prototype.render = function(board) {
@@ -73,7 +83,7 @@ Player.prototype.render = function(board) {
 Player.prototype.renderLight = function(light) {
     var ctx = light.ctx,
         flux = Math.floor((Math.cos(this.level.frame / 2) * 2)) + 2;
-    Renderer.drawLightCirc(ctx, this.x + 10, this.y +0, 30 + flux);
+    Renderer.drawLightCirc(ctx, this.x + 10, this.y +0, 20 + flux);
 }
 Player.prototype.hurt = function(e, ammount) {
     this.health -= ammount;

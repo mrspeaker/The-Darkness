@@ -81,8 +81,15 @@ Level.loadLevel = function(game, id) {
                         //entity = new CutSceneBlock(tilePair[1]);
                         //entity.init(level, idx % level.width, ~~(idx / level.width));
                         break;
-                    case "P":
+                    case "$":
                         entity = new Loot(tilePair[1]);
+                        entity.level = level;
+                        entity.x = (idx % level.width) * level.blockWidth;
+                        entity.y = ~~(idx / level.width) * level.blockHeight;
+                        levelEntities.push(entity);
+                        break;
+                    case "P":
+                        entity = new TVSource(tilePair[1]);
                         entity.level = level;
                         entity.x = (idx % level.width) * level.blockWidth;
                         entity.y = ~~(idx / level.width) * level.blockHeight;

@@ -34,7 +34,7 @@ TitleScreen.prototype.render = function(screen) {
     ctx.font = Art.fonts.normal;
     ctx.fillText("arrows to move", 200, 280);
     ctx.fillText("space to interact", 200, 300);
-    ctx.fillText("z to light up", 200, 320);
+    ctx.fillText("z to drop/light", 200, 320);
 
     Art.mummy.draw(ctx, screen.w - 380, screen.h - 260, null, null, null);
 };
