@@ -60,14 +60,23 @@ Game.prototype = {
 
     switchLevel: function(id) {
         this.pauseTime = 10;
-        this.level.removeEntityImmediately(this.player);
+        
+        var carryOverEntities = [this.player],
+            _this = this;
+        this.player.carrying && carryOverEntities.push(this.player.carrying)
+        carryOverEntities.forEach(function(e){
+            _this.level.removeEntityImmediately(e);
+        });
+
         this.level = Level.loadLevel(this, id);
-
         this.level.findSpawn(id);
-        this.player.x = this.level.xSpawn * this.level.blockWidth;
-        this.player.y = this.level.ySpawn * this.level.blockHeight;
+        
+        carryOverEntities.forEach(function(e){
+            e.x = _this.level.xSpawn * _this.level.blockWidth;
+            e.y = _this.level.ySpawn * _this.level.blockHeight;
 
-        this.level.addEntity(this.player);
+            _this.level.addEntity(e);
+        });
     },
 
     clearScreen: function() {

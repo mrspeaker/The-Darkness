@@ -133,9 +133,6 @@ Level.prototype = {
     addEntity: function(e) {
         this.entities.push(e);
         e.level = this;
-        if(!e.updatePos){
-            console.log(e)
-        }
         e.updatePos();
     },
     removeEntityImmediately: function(player) {
