@@ -2,7 +2,6 @@ function Player(){
     this.health = 5;
     this.score = 0;
     this.speed = 5;
-    this.fireTime = 0;
     this.animTime = 0;
     this.itemUseTime = 0;
     this.width = 18;
@@ -43,11 +42,8 @@ Player.prototype.ticka = function(input) {
     //}
 
     // do fire
-    if((--this.fireTime <= 0) && zkey) {
+    if(zkey) {
         if(this.carrying) this.carrying.drop();
-        
-        this.fireTime = 30;
-        this.level.fire();
     }
 
     // use current block
@@ -58,6 +54,10 @@ Player.prototype.ticka = function(input) {
 Player.prototype.pickedUp = function(e) {
     this.score += 100;
 };
+
+Player.prototype.getBlock = function() {
+    return this.level.getBlock(this.xTile, this.yTile);
+}
 
 Player.prototype.activate = function(block) {
     if(this.itemUseTime > 0) {

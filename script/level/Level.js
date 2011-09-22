@@ -4,6 +4,7 @@ function Level() {
     this.width = 0;
     this.height = 0;
     this.entities = [];
+    this.lights = [];
     this.game = null;
     this.player = null;
     this.blockWidth = 32;
@@ -93,6 +94,7 @@ Level.loadLevel = function(game, id) {
                         entity.level = level;
                         entity.x = (idx % level.width) * level.blockWidth;
                         entity.y = ~~(idx / level.width) * level.blockHeight;
+                        entity.init();
                         levelEntities.push(entity);
                         break;
                     case "Z":
@@ -141,6 +143,17 @@ Level.prototype = {
         });
         this.getBlock(player.xTileLast, player.yTileLast).removeEntity(player);
     },
+    addLight: function(light) {
+        if(this.lights.some(function(item){ return item === light; })){
+            return;
+        }
+        this.lights.push(light);
+    },
+    removeLight: function(light) {
+        this.lights = this.lights.filter(function(item){
+            return light !== item;
+        });
+    },
     getBlock: function(x, y) {
         if (x < 0 || y < 0 || x >= this.width || y >= this.height) {
             return this.solidBlock;
@@ -155,17 +168,6 @@ Level.prototype = {
         });
         this.blocks.forEach(function(block){
             block.tick();
-        })
-    },
-    fire: function() {
-        var p = this.player;
-        this.game.tmpsource.forEach(function(item){
-            item.life = 1;
-            item.x = p.x;
-            item.y = p.y;
-            item.rand();
-            item.xa += (p.xa * 1.2);
-            item.ya += (p.ya * 1.2);
         })
     },
     switchLevel: function(id) {

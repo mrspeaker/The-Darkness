@@ -14,7 +14,7 @@ TriggerBlock.prototype.use = function(e) {
 
     this.on = !this.on;
     triggees.forEach(function(item){
-        item.on = _this.on;
+        item.setLight(_this.on);
     });
 }
 TriggerBlock.prototype.addEntity = function(e) {

@@ -2,7 +2,6 @@ function Game() {
     this.level;
     this.screen;
     this.player;
-    this.tmpsource = [];
     this.pauseTime;
 }
 
@@ -45,17 +44,6 @@ Game.prototype = {
         this.player.y = this.level.ySpawn * this.level.blockHeight;
 
         this.level.addEntity(this.player);
-
-        // Messsin' round - some roving light
-        for(var i = 0; i < 20; i++) {
-            var b = new LightSource();
-            b.level = this.level;
-            b.x = 180;
-            b.y = 140;
-            b.life = 0;
-            this.tmpsource.push(b);
-            this.level.addEntity(b);
-        }
     },
 
     switchLevel: function(id) {

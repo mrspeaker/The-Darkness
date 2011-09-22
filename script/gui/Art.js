@@ -79,6 +79,12 @@ function Sprite(ss, startXFrame, startYFrame) {
 
 Sprite.prototype = {
     draw: function(ctx, x,  y, frame) {
+        ctx.save();
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        ctx.shadowBlur = 7;
+        ctx.shadowColor = "#ff0";
+        
         ctx.drawImage(this.image,
             (this.width * (frame + this.startXFrame)),
             this.yOffset + this.yOff,
@@ -88,5 +94,6 @@ Sprite.prototype = {
             y,
             this.width,
             this.height);
+        ctx.restore();
     }
 }

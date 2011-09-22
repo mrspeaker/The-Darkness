@@ -29,6 +29,8 @@ function Entity(){
     this.xTileLast = 0;
     this.yTileLast = 0;
     this.removed = false;
+    
+    this.radius = 0;
 };
 
 Entity.prototype = {
@@ -175,5 +177,19 @@ Entity.prototype = {
             e2.x + e2.width < x ||
             e2.y > y + this.height ||
             e2.y + e2.height < y);
-    }
+    },
+    setRadius: function(radius) {
+       if(radius === 0) {
+           this.radius = 0;
+           this.level.removeLight(this);
+           return;
+       }
+       this.radius = radius;
+       this.level.addLight(this);
+   },
+   getDistance: function(e) {
+        var xd = this.x - e.x,
+            yd = this.y - e.y;
+            return Math.floor(Math.sqrt(xd * xd + yd * yd));
+   }
 }

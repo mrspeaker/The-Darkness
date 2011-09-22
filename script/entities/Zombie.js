@@ -26,6 +26,7 @@ Zombie.prototype.switchState = function(newState, data) {
 };
 
 Zombie.prototype.tick = function() {
+    
     switch(this.state) {
         case this.states.rand:
             var blnMove = this.move();
@@ -33,14 +34,20 @@ Zombie.prototype.tick = function() {
             if(!blnMove || (this.xa === 0 && this.ya === 0) || (Math.random() < 0.01)){
                 this.rand();
             };
+            /*
             if(Math.random()<0.01){
-                this.switchState(this.states.attack);
-            }
+                            this.switchState(this.states.attack);
+                        }*/
+            
             break;
 
         case this.states.watch:
-            if(Math.random()<0.01){
-                this.switchState(this.states.attack);
+            var player = this.level.player,
+                distance = this.getDistance(player);
+            if(distance < 70){
+                if(player.getBlock().getLight()) {
+                    this.switchState(this.states.attack);
+                }
             }
             break;
         case this.states.returning:
@@ -55,13 +62,14 @@ Zombie.prototype.tick = function() {
 
             break;
         case this.states.attack:
+            !this.frame && this.attack();
+            
             var blnMove = this.move();
             blnMove && this.animFrame++;
-            if(!blnMove || (this.xa === 0 && this.ya === 0) || (Math.random() < 0.1)){
-                this.attack();
-            };
-            if(Math.random()<0.01){
-                this.switchState(this.states.watch);
+            if(!blnMove || (this.xa === 0 && this.ya === 0) || (this.animFrame % 10 === 2)){
+                if(!this.attack()) {
+                    this.switchState(this.states.watch);
+                }
             }
 
             break;
@@ -76,27 +84,39 @@ Zombie.prototype.tick = function() {
 };
 
 Zombie.prototype.attack = function() {
-    var px = this.level.player.x,
-        py = this.level.player.y;
-    var dx = this.x - px,
-        dy = this.y - py,
-        hyp = Math.sqrt(dx*dx + dy*dy);
+    var player = this.level.player,
+        dx = this.x - player.x,
+        dy = this.y - player.y,
+        dist = Math.sqrt(dx * dx + dy * dy);
 
+    // Player escaped.
+    if(this.animFrame > 100 && dist > 80) {
+        return false;
+    }
+    
     // Normalise
-    if(hyp !== 0) {
-        dx /= hyp;
-        dy /= hyp;
+    if(dist !== 0) {
+        dx /= dist;
+        dy /= dist;
     }
 
     this.xa = -Math.floor(dx * 4);
     this.ya = -Math.floor(dy * 4);
+    return true;
 };
 Zombie.prototype.rand = function() {
     this.xa = Math.floor(Math.random()*8) - 4;
     this.ya = Math.floor(Math.random()*8) - 4;
 };
-Zombie.prototype.render = function(board) {
+Zombie.prototype.render = function(board) {    
     Art.player.draw(board.ctx, this.x, this.y - 18, (Math.floor(this.animFrame/2)% 2) + 2);
+
+};
+Zombie.prototype.renderLight = function(light) {
+//    Renderer.drawLightCirc(light.ctx, this.x + 10, this.y +0, 4);
+    if(this.state !== this.states.attack) return;
+    var ctx = light.ctx;
+    Art.player.draw(ctx, this.x, this.y - 18, (Math.floor(this.animFrame/2)% 2) + 2);
 };
 
 Zombie.prototype.collide = function(e) {

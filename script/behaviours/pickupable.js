@@ -12,18 +12,21 @@ var pickupable = function() {
     return this;
 };
 
-var carryable = function() {
+var carryable = function(onCarry, onDrop) {
     this.carriedBy = null;
     this.carry = function(e) {
         if(e.carrying) {
             return;
         }
+        onCarry && onCarry.call(this, e);
         this.carriedBy = e;
         e.carrying = this;
     }
     this.drop = function() {
+        onDrop && onDrop.call(this, this.carriedBy);
         this.carriedBy.carrying = null;
         this.carriedBy = null;
+        
     }
     this.carryTick = function(xOff, yOff) {
         if(this.carriedBy) {
